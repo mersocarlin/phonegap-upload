@@ -1,0 +1,59 @@
+{
+  "name": "mersocarlin-template",
+  "version": "1.0.0",
+  "description": "Template for building a ReactJS app",
+  "author": "Hemerson Carlin <mersocarlin@gmail.com>",
+  "scripts": {
+    "test": "./node_modules/.bin/jsxhint lib/ spec/ && ./node_modules/.bin/jshint lib/ spec/ && ./node_modules/karma/bin/karma start karma.conf.js",
+    "watch-test": "./node_modules/karma/bin/karma start karma.conf.js --auto-watch --no-single-run",
+    "build": "./node_modules/.bin/webpack -p",
+    "rename-css-bower-dependencies": "find bower_components -name '*.css' | sed -e 'p;s/.css$/.scss/' | xargs -n2 mv",
+    "dev": "./node_modules/.bin/webpack-dev-server --inline --hot",
+    "postinstall": "bower install",
+    "phonegap": "./bin/phonegap.sh"
+  },
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mersocarlin/react-webpack-template"
+  },
+  "keywords": [
+    "template",
+    "webpack",
+    "react js",
+    "javascript",
+    "es6"
+  ],
+  "dependencies": {
+    "hammerjs": "^2.0.4",
+    "jquery": "^2.1.3",
+    "lodash": "^3.7.0",
+    "materialize-css": "^0.96.1",
+    "react": "^0.13.2"
+  },
+  "devDependencies": {
+    "babel": "^5.1.11",
+    "babel-core": "^5.1.11",
+    "babel-loader": "^5.0.0",
+    "css-loader": "^0.11.2",
+    "es5-shim": "^4.1.1",
+    "file-loader": "^0.8.1",
+    "imports-loader": "^0.6.3",
+    "jasmine": "^2.2.1",
+    "jasmine-core": "^2.2.0",
+    "jshint": "^2.6.0",
+    "jsx-loader": "^0.13.1",
+    "jsxhint": "^0.14.0",
+    "karma": "^0.12.31",
+    "karma-jasmine": "^0.3.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-webpack": "^1.5.0",
+    "node-sass": "^2.1.1",
+    "sass-loader": "^0.6.0",
+    "style-loader": "^0.11.0",
+    "url-loader": "^0.5.5",
+    "webpack": "^1.8.9",
+    "webpack-dev-server": "^1.8.2"
+  },
+  "license": "MIT"
+}
