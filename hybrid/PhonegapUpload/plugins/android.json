@@ -33,10 +33,10 @@
     },
     "installed_plugins": {
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.example.phonegapupload"
+            "PACKAGE_NAME": "com.mersocarlin.phonegapupload"
         },
         "org.apache.cordova.camera": {
-            "PACKAGE_NAME": "com.example.phonegapupload"
+            "PACKAGE_NAME": "com.mersocarlin.phonegapupload"
         }
     },
     "dependent_plugins": {}

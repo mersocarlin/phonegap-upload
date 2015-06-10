@@ -1,5 +1,7 @@
 import React from 'react';
 
+//import ImageUpload from '../components/image-upload';
+
 var pictureSource;   // picture source
 var destinationType; // sets the format of returned value
 
@@ -22,8 +24,7 @@ export default React.createClass({
     // Get image handle
     var smallImage = document.getElementById('smallImage');
 
-    // Unhide image elements
-    smallImage.style.display = 'block';
+    React.findDOMNode(this.refs.smallImageText).value = imageData;
 
     // Show the captured photo
     // The inline CSS rules are used to resize the image
@@ -39,8 +40,7 @@ export default React.createClass({
     // Get image handle
     var largeImage = document.getElementById('largeImage');
 
-    // Unhide image elements
-    largeImage.style.display = 'block';
+    React.findDOMNode(this.refs.largeImageText).value = imageURI;
 
     // Show the captured photo
     // The inline CSS rules are used to resize the image
@@ -117,8 +117,30 @@ export default React.createClass({
           <button className="waves-effect waves-light btn" onClick={this.getPhoto.bind(this, pictureSource.PHOTOLIBRARY)}>From Photo Library</button><br />
           <button className="waves-effect waves-light btn" onClick={this.getPhoto.bind(this, pictureSource.SAVEDPHOTOALBUM)}>From Photo Album</button><br />
 
-          <img id="smallImage" src="" />
-          <img id="largeImage" src="" />
+          <div className="container">
+            <div className="row">
+              <div className="col s6">
+                <img className="responsive-img" id="smallImage" src="" />
+              </div>
+              <div className="col s6">
+                <img className="responsive-img" id="largeImage" src="" />
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="input-field col s12">
+                <input id="email" type="text" ref="smallImageText" />
+                <label for="email">smallImage</label>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="input-field col s12">
+                <input id="email" type="text" ref="largeImageText"/>
+                <label for="email">largeImage</label>
+              </div>
+            </div>
+          </div>
         </div>
       );
     }

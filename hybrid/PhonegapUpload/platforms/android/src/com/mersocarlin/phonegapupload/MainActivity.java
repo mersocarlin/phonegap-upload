@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.example.phonegapupload;
+package com.mersocarlin.phonegapupload;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
