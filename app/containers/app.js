@@ -1,26 +1,24 @@
 import React from 'react';
 
 
-import ApiService from '../../lib/api';
-
-
 import PhonegapCamera from '../components/phonegap-camera';
+import PersonsAdd from '../containers/persons-add';
 
 
 export default React.createClass({
 
   getInitialState() {
     return {
-      deviceready: false
+      deviceready: true
     }
   },
 
   componentDidMount() {
-    document.addEventListener("deviceready", this.onDeviceReady, false);
+    //document.addEventListener("deviceready", this.onDeviceReady, false);
   },
 
   onDeviceReady() {
-    this.setState({ deviceready: true });
+    //this.setState({ deviceready: true });
   },
 
   render() {
@@ -28,7 +26,8 @@ export default React.createClass({
     if(this.state.deviceready) {
       return (
         <div>
-          <PhonegapCamera />
+          {/*<PhonegapCamera />*/}
+          <PersonsAdd />
         </div>
       );
     }

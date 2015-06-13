@@ -3,9 +3,6 @@ import React from 'react';
 import ApiService from '../../lib/api';
 
 
-var pictureSource;   // picture source
-var destinationType; // sets the format of returned value
-
 export default React.createClass({
 
   getInitialState() {
@@ -20,16 +17,14 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      baseUrl: "http://192.168.0.7:8083/",
+      baseUrl: "http://192.168.0.9:8083/",
       accessToken: ""
     }
   },
 
   componentDidMount() {
-    pictureSource = navigator.camera.PictureSourceType;
-    destinationType = navigator.camera.DestinationType;
-
     this.logEvent("componentDidMount");
+    this.retrieveFromLocalStorage();
   },
 
   logEvent(message) {
@@ -38,6 +33,22 @@ export default React.createClass({
 
   checkPhonegapCamera() {
     return navigator && navigator.camera;
+  },
+
+  getPhoto(source) {
+    this.logEvent("getPhoto");
+
+    if(!this.checkPhonegapCamera())
+      return;
+
+    let sourceType = navigator.camera.PictureSourceType;
+    let destinationType = navigator.camera.DestinationType;
+
+    navigator.camera.getPicture(this.onPhotoURISuccess, this.onFail, {
+      quality: 50,
+      destinationType: destinationType.FILE_URI,
+      sourceType: source === 0 ? sourceType.CAMERA : sourceType.PHOTOLIBRARY //SAVEDPHOTOALBUM
+    });
   },
 
   onPhotoURISuccess(imageURI) {
@@ -53,37 +64,15 @@ export default React.createClass({
     });
   },
 
-  capturePhoto() {
-    this.logEvent("capturePhoto");
-
-    if(!this.checkPhonegapCamera())
-      return;
-
-    // Take picture using device camera and retrieve image as base64-encoded string
-    navigator.camera.getPicture(this.onPhotoURISuccess, this.onFail, {
-      quality: 50,
-      destinationType: destinationType.FILE_URI
-    });
-  },
-
-  getPhoto() {
-    this.logEvent("getPhoto");
-
-    if(!this.checkPhonegapCamera())
-      return;
-
-    navigator.camera.getPicture(this.onPhotoURISuccess, this.onFail, {
-      quality: 50,
-      destinationType: destinationType.FILE_URI,
-      sourceType: pictureSource.PHOTOLIBRARY //SAVEDPHOTOALBUM
-    });
-  },
-
   onFail(message) {
     alert('Failed because: ' + message);
   },
 
   sendToServer() {
+    if(this.state.imageList.length == 0) {
+      alert("There are no images to be sent to server");
+      return;
+    }
 
     let payload = {
       filesToCreate: this.state.imageList
@@ -108,6 +97,30 @@ export default React.createClass({
         alert("error " + err);
         //done();
       });
+  },
+
+  saveToLocalStorage () {
+    if(this.state.imageList.length == 0) {
+      alert("There are no images to be saved in localStorage");
+      return;
+    }
+
+    localStorage.images = JSON.stringify(this.state.imageList);
+    alert("images saved on localStorage!");
+
+    this.setState({
+      imageList: []
+    });
+  },
+
+  retrieveFromLocalStorage() {
+    let images = JSON.parse(localStorage.images || "[]");
+    if(images.length == 0) {
+      alert("There are no images saved in localStorage");
+    }
+    this.setState({
+      imageList: images
+    });
   },
 
   renderImages() {
@@ -150,9 +163,21 @@ export default React.createClass({
   render() {
     return (
       <div>
-        <button className="waves-effect waves-light btn" onClick={this.capturePhoto}>Capture Photo</button> <br />
-        <button className="waves-effect waves-light btn" onClick={this.getPhoto}>From Photo Library</button><br />
-        <button className="waves-effect waves-light btn" onClick={this.sendToServer}>Send to Server</button><br />
+        <a className="waves-effect waves-light btn" onClick={this.getPhoto.bind(this, 0)}>
+          <i className="mdi-image-photo-camera"></i>
+        </a>
+        <a className="waves-effect waves-light btn" onClick={this.getPhoto.bind(this, 1)}>
+          <i className="mdi-image-photo-library"></i>
+        </a>
+        <a className="waves-effect waves-light btn" onClick={this.saveToLocalStorage}>
+          <i className="mdi-content-save"></i>
+        </a>
+        <a className="waves-effect waves-light btn" onClick={this.retrieveFromLocalStorage}>
+          <i className="mdi-file-cloud-download"></i>
+        </a>
+        <a className="waves-effect waves-light btn" onClick={this.sendToServer}>
+          <i className="mdi-file-cloud-upload"></i>
+        </a>
 
         {this.renderImages()}
       </div>
