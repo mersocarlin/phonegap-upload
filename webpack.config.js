@@ -29,7 +29,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-        'FILE_SERVICE_URL': JSON.stringify(process.env.FILE_SERVICE_URL || 'http://192.168.0.9:8083/')
+        'FILE_SERVICE_URL': JSON.stringify(process.env.FILE_SERVICE_URL || 'http://192.168.0.8:8084/')
       }
     }),
     new webpack.IgnorePlugin(/vertx/),

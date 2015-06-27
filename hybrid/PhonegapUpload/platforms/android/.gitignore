@@ -22,3 +22,5 @@ out
 
 #IntelliJ IDEA
 .idea *.iml *.ipr *.iws out
+
+!/cordova/node_modules
